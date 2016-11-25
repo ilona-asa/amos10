@@ -1,0 +1,9 @@
+﻿create type STOCK;
+create type ASTRA_ZENECA under STOCK;
+create type ERICSSON_B under STOCK;
+create type NOKIA_SDB under STOCK;
+create type SKANDIA under STOCK;
+create type VOLVO_B under STOCK;
+create type WORLD_INDEX;
+
+
