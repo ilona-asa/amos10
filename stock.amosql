@@ -7,3 +7,21 @@ create type VOLVO_B under STOCK;
 create type WORLD_INDEX;
 
 
+create function date(STOCK)->Charstring as stored;
+create function div_kr(STOCK)->Real as stored;
+create function ea_st(STOCK)->Real as stored;
+create function div_percent(STOCK)->Real as stored;
+create function pe(STOCK)->Charstring as stored; /* doubtful, value can be real or chars */
+create function pri_val(STOCK)->Integer as stored;
+create function turn(STOCK)->Integer as stored;
+create function price_change(STOCK)->Real as stored;
+create function buy(STOCK)->Real as stored;
+create function sell(STOCK)->Real as stored;
+create function latest(STOCK)->Real as stored;
+create function highest(STOCK)->Real as stored;
+create function lowest(STOCK)->Real as stored;
+
+
+create function date_index(WORLD_INDEX)->Charstring as stored;
+create function general(WORLD_INDEX)->Real as stored;
+create function it_index(WORLD_INDEX)->Real as stored;
