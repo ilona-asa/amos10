@@ -2,15 +2,10 @@
 create type WORLD_INDEX under stock;
 create type PERSON;
 create type PORTFOLIO;
-/*create type ASTRA_ZENECA under STOCK;
-create type ERICSSON_B under STOCK;
-create type NOKIA_SDB under STOCK;
-create type SKANDIA under STOCK;
-create type VOLVO_B under STOCK;*/
 
 /* function for STOCK */
 create function company_name(STOCK)->Charstring as stored;
-create function date(STOCK)->Charstring as stored;
+create function date(STOCK)->Timeval as stored;
 create function div_kr(STOCK)->Real as stored;
 create function ea_st(STOCK)->Real as stored;
 create function div_percent(STOCK)->Real as stored;
@@ -24,19 +19,16 @@ create function latest(STOCK)->Real as stored;
 create function highest(STOCK)->Real as stored;
 create function lowest(STOCK)->Real as stored;
 
-
 /* function for WORLD_INDEX */
 create function general(WORLD_INDEX)->Real as stored;
 create function it_index(WORLD_INDEX)->Real as stored;
-
 
 /* function for PERSON */
 create function name(PERSON)->Charstring as stored;
 create function personal_number(PERSON)->Charstring as stored;
 
-
 /* function for PORTFOLIO */
-create function bought_date(PORTFOLIO)->Charstring as stored;
+create function bought_date(PORTFOLIO)->Timeval as stored;
 create function purchased(PORTFOLIO)->Stock as stored;
 create function ownership(PORTFOLIO)->Person as stored;
 create function stock_amount(PORTFOLIO)->Integer as stored;
@@ -45,38 +37,38 @@ create function stock_price(PORTFOLIO)->Real as stored;
 
 /* price change doesn't use +, treat as numeric.*/
 create STOCK (company_name, date, div_kr, ea_st, div_percent, pe, pri_val, turn, price_change, buy, sell, latest, highest, lowest) instances
-	:aa ('Astra Zeneca', '11/26/2003', 6.12, 12.1, 1.1, 29, 611, 912, -3, 347, 347.5, 347.5, 352, 345),
-	:ab ('Astra Zeneca', '11/27/2003', 6.12, 12.1, 1.1, 29,	613, 474, 1, 348, 348.5,	348.5, 349.5, 346.5),
-	:ac ('Astra Zeneca', '11/28/2003', 6.12, 12.1, 1.1, 29, 611, 1009, -1, 347, 347.5, 347.5, 348.5, 343),
-	:ad ('Astra Zeneca', '12/1/2003', 6.12, 12.1, 1.1, 29, 611, 884, 0, 347.5, 348, 347.5, 349, 343.5),
-	:ae ('Astra Zeneca', '12/2/2003', 6.12, 12.1, 1.1, 28, 603, 1172, -5, 342.5, 343, 342.5, 351, 342),
-	:af ('Astra Zeneca', '12/3/2003', 6.12, 12.1, 1.1, 28, 607, 1739, 2.5, 345, 345.5, 345, 349, 343),
-	:ag ('Astra Zeneca', '12/4/2003', 6.12, 12.1, 1.6, 28, 607, 870, 0, 345, 345.5, 345, 349.5, 344),
-	:ah ('Astra Zeneca', '12/5/2003', 6.12, 12.1, 1.1, 28, 603, 656, -2.5, 342.5, 343, 342.5, 347, 341),
-	:ai ('Astra Zeneca', '12/8/2003', 6.12, 12.1, 1.6, 28, 594, 976, -5, 337.5, 338, 337.5, 342, 337),
-	:aj ('Astra Zeneca', '12/9/2003', 6.12, 12.1, 1.1, 28, 592, 1262, -1, 336, 336.5, 336.5, 341.5, 335.5),
-	:ca ('Nokia SDB', '11/26/2003', 2.57, 6.7, 1.9, 20, 498, 2174, 0, 136, 136.5, 136, 138, 135.5),
-	:cb ('Nokia SDB', '11/27/2003', 2.57, 6.7, 1.8, 20, 499, 733, 0.5, 136.5, 137, 136.5, 137.5, 136),
-	:cc ('Nokia SDB', '11/28/2003', 2.57, 6.7, 1.9, 20, 498, 1438, -0.5, 136, 136.5, 136, 137.5, 135),
-	:cd ('Nokia SDB', '12/1/2003', 2.57, 6.7, 1.9, 20, 498, 1587, 0, 135.5, 136, 136, 137.5, 134.5),
-	:ce ('Nokia SDB', '12/2/2003', 2.57, 6.7, 1.9, 20, 496, 2037, -0.5, 135.5, 136, 135.5, 137.5, 135),
-	:cf ('Nokia SDB', '12/3/2003', 2.57, 6.7, 1.9, 20, 492, 1756, -1, 134.5, 135, 134.5, 136.5, 134),
-	:cg ('Nokia SDB', '12/4/2003', 2.57, 6.7, 1.8, 20, 501, 2840, 2.5, 137, 137.5, 137, 138, 134.5),
-	:ch ('Nokia SDB', '12/5/2003', 2.57, 6.7, 1.9, 20, 490, 2369, -3, 133.5, 134, 134, 136.5, 133),
-	:ci ('Nokia SDB', '12/8/2003', 2.57, 6.7, 1.9, 20, 477, 2232, -3.5, 130.5, 131, 130.5, 133, 130.5),
-	:cj ('Nokia SDB', '12/9/2003', 2.57, 6.7, 1.9, 19, 472, 2278, -1.5, 129, 129.5, 129, 132, 129);
+	:aa ('Astra Zeneca', |2003-11-26|, 6.12, 12.1, 1.1, 29, 611, 912, -3, 347, 347.5, 347.5, 352, 345),
+	:ab ('Astra Zeneca', |2003-11-27|, 6.12, 12.1, 1.1, 29,	613, 474, 1, 348, 348.5,	348.5, 349.5, 346.5),
+	:ac ('Astra Zeneca', |2003-11-28|, 6.12, 12.1, 1.1, 29, 611, 1009, -1, 347, 347.5, 347.5, 348.5, 343),
+	:ad ('Astra Zeneca', |2003-12-1|, 6.12, 12.1, 1.1, 29, 611, 884, 0, 347.5, 348, 347.5, 349, 343.5),
+	:ae ('Astra Zeneca', |2003-12-2|, 6.12, 12.1, 1.1, 28, 603, 1172, -5, 342.5, 343, 342.5, 351, 342),
+	:af ('Astra Zeneca', |2003-12-3|, 6.12, 12.1, 1.1, 28, 607, 1739, 2.5, 345, 345.5, 345, 349, 343),
+	:ag ('Astra Zeneca', |2003-12-4|, 6.12, 12.1, 1.6, 28, 607, 870, 0, 345, 345.5, 345, 349.5, 344),
+	:ah ('Astra Zeneca', |2003-12-5|, 6.12, 12.1, 1.1, 28, 603, 656, -2.5, 342.5, 343, 342.5, 347, 341),
+	:ai ('Astra Zeneca', |2003-12-8|, 6.12, 12.1, 1.6, 28, 594, 976, -5, 337.5, 338, 337.5, 342, 337),
+	:aj ('Astra Zeneca', |2003-12-9|, 6.12, 12.1, 1.1, 28, 592, 1262, -1, 336, 336.5, 336.5, 341.5, 335.5),
+	:ca ('Nokia SDB', |2003-11-26|, 2.57, 6.7, 1.9, 20, 498, 2174, 0, 136, 136.5, 136, 138, 135.5),
+	:cb ('Nokia SDB', |2003-11-27|, 2.57, 6.7, 1.8, 20, 499, 733, 0.5, 136.5, 137, 136.5, 137.5, 136),
+	:cc ('Nokia SDB', |2003-11-28|, 2.57, 6.7, 1.9, 20, 498, 1438, -0.5, 136, 136.5, 136, 137.5, 135),
+	:cd ('Nokia SDB', |2003-12-1|, 2.57, 6.7, 1.9, 20, 498, 1587, 0, 135.5, 136, 136, 137.5, 134.5),
+	:ce ('Nokia SDB', |2003-12-2|, 2.57, 6.7, 1.9, 20, 496, 2037, -0.5, 135.5, 136, 135.5, 137.5, 135),
+	:cf ('Nokia SDB', |2003-12-3|, 2.57, 6.7, 1.9, 20, 492, 1756, -1, 134.5, 135, 134.5, 136.5, 134),
+	:cg ('Nokia SDB', |2003-12-4|, 2.57, 6.7, 1.8, 20, 501, 2840, 2.5, 137, 137.5, 137, 138, 134.5),
+	:ch ('Nokia SDB', |2003-12-5|, 2.57, 6.7, 1.9, 20, 490, 2369, -3, 133.5, 134, 134, 136.5, 133),
+	:ci ('Nokia SDB', |2003-12-8|, 2.57, 6.7, 1.9, 20, 477, 2232, -3.5, 130.5, 131, 130.5, 133, 130.5),
+	:cj ('Nokia SDB', |2003-12-9|, 2.57, 6.7, 1.9, 19, 472, 2278, -1.5, 129, 129.5, 129, 132, 129);
 
 create WORLD_INDEX (date, general, it_index) instances
-	:ea ('11/26/2003', 181.24, 65.04),
-	:eb ('11/27/2003', 183.04, 65.57),
-	:ec ('11/28/2003', 182.73, 66.55),
-	:ed ('12/1/2003', 184.40, 67.75),
-	:ee ('12/2/2003', 184.69, 67.73),
-	:ef ('12/3/2003', 185.24, 68.04),
-	:eg ('12/4/2003', 186.12, 68.39),
-	:eh ('12/5/2003', 185.47, 67.80),
-	:ei ('12/8/2003', 183.62, 67.31),
-	:ej ('12/9/2003', 184.07, 68.34);
+	:ea (|2003-11-26|, 181.24, 65.04),
+	:eb (|2003-11-27|, 183.04, 65.57),
+	:ec (|2003-11-28|, 182.73, 66.55),
+	:ed (|2003-12-1|, 184.40, 67.75),
+	:ee (|2003-12-2|, 184.69, 67.73),
+	:ef (|2003-12-3|, 185.24, 68.04),
+	:eg (|2003-12-4|, 186.12, 68.39),
+	:eh (|2003-12-5|, 185.47, 67.80),
+	:ei (|2003-12-8|, 183.62, 67.31),
+	:ej (|2003-12-9|, 184.07, 68.34);
 
 create PERSON (name, personal_number) instances
 	:ba ('Cheng', '19890101-1234'),
@@ -84,15 +76,16 @@ create PERSON (name, personal_number) instances
 	:bc ('Asa', '19880623-9281');
 
 create PORTFOLIO (bought_date, purchased, ownership, stock_amount, stock_price) instances
-	:da ('11/26/2003', :aa, :ba, 10, 348),
-	:db ('11/26/2003', :ca, :ba, 50, 136.5),
-	:dc ('12/3/2003', :af, :ba, 25, 346),
-	:dd ('12/5/2003', :ah, :ba, 30, 344.5),
-	:de ('12/1/2003', :cd, :bb, 15, 135),
-	:df ('12/3/2003', :af, :bb, 45, 348),
-	:dg ('12/8/2003', :ci, :bb, 10, 131),
-	:dh ('12/1/2003', :cd, :bc, 40, 135.5),
-	:di ('12/8/2003', :ai, :bc, 25, 340.5);
+	:da (|2003-11-26|, :aa, :ba, 10, 348),
+	:db (|2003-11-26|, :ca, :ba, 50, 136.5),
+	:dc (|2003-12-3|, :af, :ba, 25, 346),
+	:dd (|2003-12-5|, :ah, :ba, 30, 344.5),
+	:de (|2003-12-1|, :cd, :bb, 15, 135),
+	:df (|2003-12-3|, :af, :bb, 45, 348),
+	:dg (|2003-12-8|, :ci, :bb, 10, 131),
+	:dh (|2003-12-1|, :cd, :bc, 40, 135.5),
+	:di (|2003-12-8|, :ai, :bc, 25, 340.5);
+
 
 
 /* no. 1 - not used*/
@@ -102,6 +95,7 @@ select date(p) from NOKIA_SDB p where price_change(p) > 0;*/
 /* no. 1 */
 select date(p), company_name(p) from STOCK p where price_change(p) > 0;
 
+
 /* no. 2 - not used*/
 /*select date(p), sell(p)-buy(p) from ASTRA_ZENECA p;
 select date(p), sell(p)-buy(p) from NOKIA_SDB p;*/
@@ -109,5 +103,46 @@ select date(p), sell(p)-buy(p) from NOKIA_SDB p;*/
 /* no. 2 */
 select company_name(p), date(p), sell(p)-buy(p) from STOCK p;
 
+
 /* no. 3 */
-select company_name(s), sum(stock_amount(f)*stock_price(f)) from PERSON p, PORTFOLIO f, STOCK s where name(p)='' group by company_name(s);
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' group by company_name(purchased(p));
+
+/* no. 3 - for each date and each person*/
+/* Cheng's portfolio */
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-11-27| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-11-28| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-01| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-02| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-03| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-04| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-05| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
+
+/* Michael's portfolio */
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-11-27| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-11-28| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-01| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-02| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-03| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-04| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-05| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
+
+/* Asa's portfolio */
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-11-27| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-11-28| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-01| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-02| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-03| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-04| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-05| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
+
