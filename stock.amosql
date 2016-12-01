@@ -79,19 +79,35 @@ create WORLD_INDEX (date, general, it_index) instances
 	:ei ('12/8/2003', 183.62, 67.31),
 	:ej ('12/9/2003', 184.07, 68.34);
 
+create PERSON (name, personal_number) instances
+	:ba ('Cheng', '19890101-1234'),
+	:bb ('Michael', '19870512-5678'),
+	:bc ('Asa', '19880623-9281');
+
+create PORTFOLIO (bought_date, stock_name, stock_ownership, stock_amount, stock_price) instances
+	:da ('11/26/2003', :aa, :ba, 10, 348),
+	:db ('11/26/2003', :ca, :ba, 50, 136.5),
+	:dc ('12/3/2003', :af, :ba, 25, 346),
+	:dd ('12/5/2003', :ah, :ba, 30, 344.5),
+	:de ('12/1/2003', :cd, :bb, 15, 135),
+	:df ('12/3/2003', :af, :bb, 45, 348),
+	:dg ('12/8/2003', :ci, :bb, 10, 131),
+	:dh ('12/1/2003', :cd, :bc, 40, 135.5),
+	:di ('12/8/2003', :ai, :bc, 25, 340.5);
+
 
 /* no. 1 */
 select date(p) from ASTRA_ZENECA p where price_change(p) > 0;
-select date(p) from ERICSSON_B p where price_change(p) > 0;
 select date(p) from NOKIA_SDB p where price_change(p) > 0;
+/*select date(p) from ERICSSON_B p where price_change(p) > 0;
 select date(p) from SKANDIA p where price_change(p) > 0;
-select date(p) from VOLVO_B p where price_change(p) > 0;
+select date(p) from VOLVO_B p where price_change(p) > 0;*/
 
 /* no. 2 */
 select date(p), sell(p)-buy(p) from ASTRA_ZENECA p;
-select date(p), sell(p)-buy(p) from ERICSSON_B p;
 select date(p), sell(p)-buy(p) from NOKIA_SDB p;
+/*select date(p), sell(p)-buy(p) from ERICSSON_B p;
 select date(p), sell(p)-buy(p) from SKANDIA p;
-select date(p), sell(p)-buy(p) from VOLVO_B p;
+select date(p), sell(p)-buy(p) from VOLVO_B p;*/
 
 /* no. 3 */
