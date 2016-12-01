@@ -146,3 +146,8 @@ select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from port
 select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
 select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
 
+
+/* No. 4 */
+select name(ownership(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' group by name(ownership(p));
+select name(ownership(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' group by name(ownership(p));
+select name(ownership(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' group by name(ownership(p));
