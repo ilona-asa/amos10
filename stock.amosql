@@ -151,9 +151,9 @@ select name(ownership(p)), sum(stock_amount(p)*buy(s)) from portfolio p, stock s
 select name(ownership(p)), sum(stock_amount(p)*buy(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and date(s) = |2003-12-09| group by name(ownership(p));
 
 /*No. 5 Development of Portfolio stock */
-select company_name(purchased(p)),(buy(purchased(p)) - buy(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and date(s) = |2003-12-09| and name(ownership(p)) = 'Asa';
-select company_name(purchased(p)),(buy(purchased(p)) - buy(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and date(s) = |2003-12-09| and name(ownership(p)) = 'Cheng';
-select company_name(purchased(p)),(buy(purchased(p)) - buy(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and date(s) = |2003-12-09| and name(ownership(p)) = 'Michael';
+select company_name(purchased(p)),(buy(s) - buy(purchased(p))) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and date(s) = |2003-12-09| and name(ownership(p)) = 'Cheng';
+select company_name(purchased(p)),(buy(s) - buy(purchased(p))) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and date(s) = |2003-12-09| and name(ownership(p)) = 'Asa';
+select company_name(purchased(p)),(buy(s)) - buy(purchased(p)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and date(s) = |2003-12-09| and name(ownership(p)) = 'Michael';
 
 /* No. 5 Development of Stcok*/
 select company_name(s), buy(s) - buy(ss) from stock s , stock ss where date(s) = |2003-11-26| and date(ss) = |2003-12-09| and company_name(s) = company_name(ss);
