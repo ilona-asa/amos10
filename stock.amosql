@@ -87,65 +87,62 @@ create PORTFOLIO (bought_date, purchased, ownership, stock_amount) instances
 
 
 
-/* no. 1 - not used*/
-/*select date(p) from ASTRA_ZENECA p where price_change(p) > 0;
-select date(p) from NOKIA_SDB p where price_change(p) > 0;*/
 
 /* no. 1 */
 select date(p), company_name(p) from STOCK p where price_change(p) > 0;
 
-
-/* no. 2 - not used*/
-/*select date(p), sell(p)-buy(p) from ASTRA_ZENECA p;
-select date(p), sell(p)-buy(p) from NOKIA_SDB p;*/
 
 /* no. 2 */
 select company_name(p), date(p), sell(p)-buy(p) from STOCK p;
 
 
 /* no. 3 - for each person in last date*/
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' group by company_name(purchased(p));
-
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name
+(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name
+(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name
+(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) group by company_name(purchased(p));
 
 /* no. 3 - for each date and each person*/
 /* Cheng's portfolio */
-select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-11-27| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-11-28| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-01| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-02| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-03| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-04| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-05| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name
+(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) and bought_date(p) <= |2003-11-27| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) and bought_date(p) <= |2003-11-28| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-01| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-02| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-03| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-04| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-05| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
 
 /* Michael's portfolio */
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-11-27| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-11-28| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-01| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-02| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-03| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-04| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-05| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name
+(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) and bought_date(p) <= |2003-11-27| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) and bought_date(p) <= |2003-11-28| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-01| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-02| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-03| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-04| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-05| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Michael' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
 
 /* Asa's portfolio */
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-11-27| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-11-28| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-01| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-02| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-03| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-04| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-05| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name
+(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) and bought_date(p) <= |2003-11-27| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) and bought_date(p) <= |2003-11-28| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-01| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-02| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-03| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-04| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-05| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and bought_date(p) = date(s) and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
 
 
 /* No. 4 - based on current buy price */
