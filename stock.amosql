@@ -32,7 +32,6 @@ create function bought_date(PORTFOLIO)->Date as stored;
 create function purchased(PORTFOLIO)->Stock as stored;
 create function ownership(PORTFOLIO)->Person as stored;
 create function stock_amount(PORTFOLIO)->Integer as stored;
-create function stock_price(PORTFOLIO)->Real as stored;
 
 
 /* price change doesn't use +, treat as numeric.*/
@@ -75,16 +74,16 @@ create PERSON (name, personal_number) instances
 	:bb ('Michael', '19870512-5678'),
 	:bc ('Asa', '19880623-9281');
 
-create PORTFOLIO (bought_date, purchased, ownership, stock_amount, stock_price) instances
-	:da (|2003-11-26|, :aa, :ba, 10, 348),
-	:db (|2003-11-26|, :ca, :ba, 50, 136.5),
-	:dc (|2003-12-3|, :af, :ba, 25, 346),
-	:dd (|2003-12-5|, :ah, :ba, 30, 344.5),
-	:de (|2003-12-1|, :cd, :bb, 15, 135),
-	:df (|2003-12-3|, :af, :bb, 45, 348),
-	:dg (|2003-12-8|, :ci, :bb, 10, 131),
-	:dh (|2003-12-1|, :cd, :bc, 40, 135.5),
-	:di (|2003-12-8|, :ai, :bc, 25, 340.5);
+create PORTFOLIO (bought_date, purchased, ownership, stock_amount) instances
+	:da (|2003-11-26|, :aa, :ba, 10),
+	:db (|2003-11-26|, :ca, :ba, 50),
+	:dc (|2003-12-3|, :af, :ba, 25),
+	:dd (|2003-12-5|, :ah, :ba, 30),
+	:de (|2003-12-1|, :cd, :bb, 15),
+	:df (|2003-12-3|, :af, :bb, 45),
+	:dg (|2003-12-8|, :ci, :bb, 10),
+	:dh (|2003-12-1|, :cd, :bc, 40),
+	:di (|2003-12-8|, :ai, :bc, 25);
 
 
 
@@ -104,14 +103,16 @@ select date(p), sell(p)-buy(p) from NOKIA_SDB p;*/
 select company_name(p), date(p), sell(p)-buy(p) from STOCK p;
 
 
-/* no. 3 */
+/* no. 3 - for each person in last date*/
 select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' group by company_name(purchased(p));
 select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' group by company_name(purchased(p));
 select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' group by company_name(purchased(p));
 
+select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' group by company_name(purchased(p));
+
 /* no. 3 - for each date and each person*/
 /* Cheng's portfolio */
-select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
+select company_name(purchased(p)), sum(stock_amount(p)*sell(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-11-26| group by company_name(purchased(p));
 select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-11-27| group by company_name(purchased(p));
 select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-11-28| group by company_name(purchased(p));
 select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' and bought_date(p) <= |2003-12-01| group by company_name(purchased(p));
@@ -146,11 +147,6 @@ select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from port
 select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-08| group by company_name(purchased(p));
 select company_name(purchased(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' and bought_date(p) <= |2003-12-09| group by company_name(purchased(p));
 
-
-/* No. 4 - based on bought_price */
-select name(ownership(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Cheng' group by name(ownership(p));
-select name(ownership(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Michael' group by name(ownership(p));
-select name(ownership(p)), sum(stock_amount(p)*stock_price(p)) from portfolio p where name(ownership(p)) = 'Asa' group by name(ownership(p));
 
 /* No. 4 - based on current buy price */
 select name(ownership(p)), sum(stock_amount(p)*buy(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Cheng' and date(s) = |2003-12-09| group by name(ownership(p));
