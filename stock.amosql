@@ -86,9 +86,6 @@ create PORTFOLIO (bought_date, purchased, ownership, stock_amount) instances
 	:di (|2003-12-8|, :ai, :bc, 25);
 
 
-/* No. 6 */
-select sell()
-
 
 /* no. 1 */
 select date(p), company_name(p) from STOCK p where price_change(p) > 0;
@@ -146,6 +143,7 @@ select name(ownership(p)), sum(stock_amount(p)*buy(s)) from portfolio p, stock s
 select name(ownership(p)), sum(stock_amount(p)*buy(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Michael' and date(s) = |2003-12-09| group by name(ownership(p));
 select name(ownership(p)), sum(stock_amount(p)*buy(s)) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and name(ownership(p)) = 'Asa' and date(s) = |2003-12-09| group by name(ownership(p));
 
+
 /*No. 5 Development of Portfolio stock */
 select company_name(purchased(p)),(buy(s) - buy(purchased(p))) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and date(s) = |2003-12-09| and name(ownership(p)) = 'Cheng';
 select company_name(purchased(p)),(buy(s) - buy(purchased(p))) from portfolio p, stock s where company_name(purchased(p)) = company_name(s) and date(s) = |2003-12-09| and name(ownership(p)) = 'Asa';
@@ -155,3 +153,7 @@ select company_name(purchased(p)),(buy(s)) - buy(purchased(p)) from portfolio p,
 select company_name(s), buy(s) - buy(ss) from stock s , stock ss where date(s) = |2003-11-26| and date(ss) = |2003-12-09| and company_name(s) = company_name(ss);
 
 
+/* No. 6 - Development of each stock for comparison */
+select company_name(s1), ((sell(s1) - sell(s2))/sell(s2))*100 from stock s1, stock s2 where company_name(s1) = company_name(s2) and date(
+s1) = |2003-12-09| and date(s2) = |2003-11-26| and company_name(s1) = 'Astra Zeneca';
+select company_name(s1), ((sell(s1) - sell(s2))/sell(s2))*100 from stock s1, stock s2 where company_name(s1) = company_name(s2) and date(s1) = |2003-12-09| and date(s2) = |2003-11-26| and company_name(s1) = 'Nokia SDB';
