@@ -155,3 +155,11 @@ select company_name(purchased(p)),(buy(s)) - buy(purchased(p)) from portfolio p,
 select company_name(s), buy(s) - buy(ss) from stock s , stock ss where date(s) = |2003-11-26| and date(ss) = |2003-12-09| and company_name(s) = company_name(ss);
 
 
+/*No. 5 Development of Portfolio Stock with Index
+select company_name(purchased(p)),(buy(purchased(p)) - it_index(w)) from portfolio p, World_Index w where date(w) = bought_date(p) and name(ownership(p)) = 'Asa' and company_name(purchased(p)) = 'Astra Zeneca' ;
+select company_name(purchased(p)),(buy(purchased(p)) - it_index(w)) from portfolio p, World_Index w where date(w) = bought_date(p) and name(ownership(p)) = 'Cheng' and company_name(purchased(p)) = 'Astra Zeneca';
+select company_name(purchased(p)),(buy(purchased(p)) - it_index(w)) from portfolio p, World_Index w where date(w) = bought_date(p) and name(ownership(p)) = 'Michael' and company_name(purchased(p)) = 'Astra Zeneca';
+
+select company_name(purchased(p)),(buy(purchased(p)) - general(w)) from portfolio p, World_Index w where date(w) = bought_date(p) and name(ownership(p)) = 'Asa' and company_name(purchased(p)) = 'Nokia SDB' ;
+select company_name(purchased(p)),(buy(purchased(p)) - general(w)) from portfolio p, World_Index w where date(w) = bought_date(p) and name(ownership(p)) = 'Cheng' and company_name(purchased(p)) = 'Nokia SDB';
+select company_name(purchased(p)),(buy(purchased(p)) - general(w)) from portfolio p, World_Index w where date(w) = bought_date(p) and name(ownership(p)) = 'Michael' and company_name(purchased(p)) = 'Nokia SDB';
